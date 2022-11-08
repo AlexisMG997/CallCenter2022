@@ -6,10 +6,16 @@ import {
   Route,
 } from "react-router-dom";
 import simulator from "../components/simulator/simulator";
-import adminPanel from "../components/adminPanel/adminPanel";
+import Header from "../components/header/header";
+import ContentWrapper from "../components/contentWrapper/contentWrapper";
 
-function main() {
-  return <div>main</div>;
+function Main() {
+  return (
+    <div>
+      <Header></Header>
+      <ContentWrapper></ContentWrapper>
+    </div>
+  );
 }
 
-export default main;
+export default Main;

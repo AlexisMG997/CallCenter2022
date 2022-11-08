@@ -1,6 +1,6 @@
 import React from "react";
 
-function adminPanel() {
+const AdminPanel = () => {
   return (
     <figure class="md:flex bg-gray-100 rounded-xl p-8 md:p-0">
       <img
@@ -25,6 +25,6 @@ function adminPanel() {
       </div>
     </figure>
   );
-}
+};
 
-export default adminPanel;
+export default AdminPanel;
