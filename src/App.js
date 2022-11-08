@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import Main from "./layouts/main";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Main></Main>
+    // <div className="App">
+    //   <BrowserRouter>
+    //     <Routes>
+    //       <Route path="/">
+    //         <Route index element={<AdminPanel />} />
+    //         <Route path="student" element={<Student />} />
+    //       </Route>
+    //     </Routes>
+    //   </BrowserRouter>
+    // </div>
   );
 }
 
