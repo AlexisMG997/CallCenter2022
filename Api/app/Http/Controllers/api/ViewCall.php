@@ -58,9 +58,9 @@ class ViewCall extends Controller
         if (!preg_match("/^[0-4]{1}$/", $request->statusEndId)){
             $response["status"] = 202;
             $response["msg"] = "El status de la llamada debe ser un número del 1 al 4";
-        }elseif (!preg_match("/^[0-9]{4}$/",$request->callId)) {
+        }elseif (!preg_match("/^[0-9]$/",$request->callId)) {
             $response["status"] = 202;
-            $response["msg"] = "El número de la llamada debe ser de 4 dígitos";
+            $response["msg"] = "El número de la llamada debe ser un número";
         }else{
             $check = DB::table('viewCalls')
             ->where('callId', $request->callId)
@@ -95,7 +95,7 @@ class ViewCall extends Controller
         $response["status"] = 202;
         $response["msg"] = "La estación debe ser un número";
         }else{
-        $LoginState= DB::select(
+        $LoginNormal= DB::update(
         "--login agent
         declare @result as int;
         exec spLoginAgent
@@ -105,27 +105,42 @@ class ViewCall extends Controller
             @status = @result output;
         select @result as result;");
 
-        switch ($LoginState[0]->result) {
-            case 1: 
-                $response["status"] = 200;
-                $response["msg"] = "No se pudo conectar al agente (id o pin inválido)";
-                break;
-            case 2:
-                $response["status"] = 200;
-                $response["msg"] = "El agente ya está conectado";
-                break;
-            case 3:
-                $response["status"] = 200;
-                $response["msg"] = "Estación inválida";
-                break;
-            case 4:
-                $response["status"] = 200;
-                $response["msg"] = "Estación no activa";
-                break;
-            case 5:
-                $response["status"] = 200;
-                $response["msg"] = "Estación en uso";
-                break;   
+        if($LoginNormal == 1){
+        $response["status"] = 200;
+        $response["msg"] = "El agente ha sido conectado";   
+       
+        }else{
+            $LoginState= DB::select(
+            "--login agent
+            declare @result as int;
+            exec spLoginAgent
+            @agentId = ".$request->agentId.",
+            @agentPin = ".$request->agentPin.",
+            @stationId = ".$request->stationId.",
+            @status = @result output;
+            select @result as result;");
+
+            switch ($LoginState[0]->result) {
+                case 1: 
+                    $response["status"] = 202;
+                    $response["msg"] = "No se pudo conectar al agente (id o pin inválido)";
+                    break;
+                case 2:
+                    $response["status"] = 202;
+                    $response["msg"] = "El agente ya está conectado";
+                    break;
+                case 3:
+                    $response["status"] = 202;
+                    $response["msg"] = "Estación inválida";
+                    break;
+                case 4:
+                    $response["status"] = 202;
+                    $response["msg"] = "Estación no activa";
+                    break;
+                case 5:
+                    $response["status"] = 202;
+                    $response["msg"] = "Estación en uso";
+                    break;   
         }
         }
         
@@ -133,3 +148,4 @@ class ViewCall extends Controller
     }
 }
 
+}
